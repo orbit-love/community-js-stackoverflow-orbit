@@ -7,7 +7,7 @@ A community project to integrate Stack Overflow interactions into Orbit workspac
 ## Usage
 
 ```js
-import OrbitStackOverflow from '@orbit/stackoverflow'
+import OrbitStackOverflow from '@orbit-love/stackoverflow'
 const orbitStackOverflow = new OrbitStackOverflow()
 
 // Allows you to go back a number of hours and only get questions in that timeframe
