@@ -1,0 +1,36 @@
+{
+  "name": "@orbit/stackoverflow",
+  "version": "0.1.0",
+  "description": "A community project to integrate Stack Overflow interactions into Orbit workspaces",
+  "type": "module",
+  "main": "./src/index.js",
+  "scripts": {},
+  "repository": {
+    "type": "GitHub",
+    "url": "https://github.com/orbit-love/community-js-orbit-stackoverflow"
+  },
+  "author": "Kevin Lewis",
+  "keywords": [
+    "orbit",
+    "stackoverflow",
+    "questions",
+    "integration"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/orbit-love/community-js-orbit-stackoverflow",
+  "devDependencies": {
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.2.1",
+    "eslint-config-airbnb-base": "^14.2.1"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.6",
+    "dotenv": "^8.5.1",
+    "limiter": "^2.0.1",
+    "moment": "^2.29.1",
+    "stackexchange": "^1.3.0"
+  }
+}
