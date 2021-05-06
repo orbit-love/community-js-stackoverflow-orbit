@@ -1,5 +1,5 @@
-import questions from './questions.js'
-import orbit from './orbit.js'
+const questions = require('./questions.js')
+const orbit = require('./orbit.js')
 
 const BASE_URL='https://app.orbit.love/api/v1'
 

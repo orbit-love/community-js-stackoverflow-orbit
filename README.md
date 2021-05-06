@@ -7,7 +7,7 @@ A community project to integrate Stack Overflow interactions into Orbit workspac
 ## Usage
 
 ```js
-import OrbitStackOverflow from '@orbit-love/stackoverflow'
+const OrbitStackOverflow = require('@orbit-love/stackoverflow')
 const orbitStackOverflow = new OrbitStackOverflow()
 
 // Allows you to go back a number of hours and only get questions in that timeframe
@@ -27,13 +27,13 @@ You will need:
 The standard initialization of the library requires the following signature:
 
 ```js
-import OrbitStackOverflow from '@orbit/stackoverflow'
+const OrbitStackOverflow = require('@orbit-love/stackoverflow')
 const orbitStackOverflow = new OrbitStackOverflow('orbitWorkspaceId', 'orbitApiKey', 'stackAppsKey')
 ```
 
 If you have the following environment variables set: `ORBIT_WORKSPACE_ID`, `ORBIT_API_KEY`, and `STACK_APPS_KEY` then you can initialize the client as follows:
 
 ```js
-import OrbitStackOverflow from '@orbit/stackoverflow'
+const OrbitStackOverflow = require('@orbit-love/stackoverflow')
 const orbitStackOverflow = new OrbitStackOverflow()
 ```

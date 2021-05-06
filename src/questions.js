@@ -1,7 +1,7 @@
-import axios from 'axios'
-import cheerio from 'cheerio'
-import stackexchange from 'stackexchange'
-import moment from 'moment'
+const axios = require('axios')
+const cheerio = require('cheerio')
+const stackexchange = require('stackexchange')
+const moment = require('moment')
 
 const stackExchangeClient = new stackexchange({ version: 2.2 })
 
@@ -113,7 +113,7 @@ const prepare = questions => {
                         title: `Asked ${question.title}`,
                         activity_type: 'stackoverflow:question',
                         key: `stackoverflow-question-${question.question_id}`,
-                        occured_at: new Date(question.creation_date * 1000).toISOString(),
+                        occurred_at: new Date(question.creation_date * 1000).toISOString(),
                         member: {
                             name: question.owner.display_name,
                             github: question.owner.github,
@@ -123,7 +123,7 @@ const prepare = questions => {
                     identity: {
                         source: 'Stack Overflow',
                         source_host: 'stackoverflow.com',
-                        username: question.owner.dislpay_name,
+                        username: question.owner.display_name,
                         url: question.owner.link,
                         uid: question.owner.user_id
                     }
@@ -136,7 +136,7 @@ const prepare = questions => {
     })
 }
 
-export default {
+module.exports = {
     get,
     prepare
 }
