@@ -1,5 +1,5 @@
 {
-  "name": "@orbit/stackoverflow",
+  "name": "@orbit-love/stackoverflow",
   "version": "0.1.0",
   "description": "A community project to integrate Stack Overflow interactions into Orbit workspaces",
   "type": "module",
