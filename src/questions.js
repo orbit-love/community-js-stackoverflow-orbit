@@ -54,12 +54,12 @@ const enrichSingleQuestion = question => {
             const $ = cheerio.load(html)
 
             let github, twitter
-            for(let link of $('[rel=me]')) {
-                const url = $(link).attr('href')
-                const username = $(link).text()
+            $('[rel=me]').each((i, e) => {
+                const url = $(e).attr('href')
+                const username = $(e).text()
                 if(url.includes('github')) github = username
                 if(url.includes('twitter')) twitter = username.split('@').join('')
-            }
+            })
 
             const q = { ...question }
             if(github) q.owner.github = github
@@ -123,7 +123,7 @@ const prepare = questions => {
                     identity: {
                         source: 'Stack Overflow',
                         source_host: 'stackoverflow.com',
-                        username: question.owner.display_name,
+                        username: question.owner.dislpay_name,
                         url: question.owner.link,
                         uid: question.owner.user_id
                     }

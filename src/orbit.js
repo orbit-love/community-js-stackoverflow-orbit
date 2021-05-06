@@ -15,7 +15,6 @@ const addActivities = (activities, options) => {
                 }).then(_ => {
                     stats.added++
                 }).catch(error => {
-                    console.log(error.response.data)
                     if(error.response.status == 422 && error.response.data.errors.key) {
                         stats.duplicates++
                     } else {
