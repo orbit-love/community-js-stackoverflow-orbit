@@ -15,7 +15,8 @@ const addActivities = (activities, options) => {
                 }).then(_ => {
                     stats.added++
                 }).catch(error => {
-                    if(error.response.status == 422 && error.response.data.errors.uid[0] == 'has already been taken') {
+                    console.log(error.response.data)
+                    if(error.response.status == 422 && error?.response?.data?.errors?.key[0] == 'has already been taken') {
                         stats.duplicates++
                     } else {
                         throw new Error(error)
