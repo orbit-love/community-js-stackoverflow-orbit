@@ -37,3 +37,17 @@ If you have the following environment variables set: `ORBIT_WORKSPACE_ID`, `ORBI
 const OrbitStackOverflow = require('@orbit-love/stackoverflow')
 const orbitStackOverflow = new OrbitStackOverflow()
 ```
+
+## CLI
+
+Without installation you can also use this package using npx:
+
+```
+npx @orbit-love/stackoverflow --questions --tag=tag-1
+```
+
+By default this will get the last 24 hours worth of activity, but this can be explicitly overridden:
+
+```
+npx @orbit-love/stackoverflow --questions --tag=tag-1 --hours=12
+```
