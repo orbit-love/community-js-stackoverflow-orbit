@@ -10,7 +10,7 @@
   "bin": "./src/bin.js",
   "repository": {
     "type": "GitHub",
-    "url": "https://github.com/orbit-love/community-js-orbit-stackoverflow"
+    "url": "https://github.com/orbit-love/community-js-stackoverflow-orbit"
   },
   "author": "Kevin Lewis",
   "keywords": [
@@ -20,7 +20,7 @@
     "integration"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/orbit-love/community-js-orbit-stackoverflow",
+  "homepage": "https://github.com/orbit-love/community-js-orbit-stackoverflow-orbit",
   "devDependencies": {
     "eslint": "^7.25.0",
     "eslint-config-airbnb-base": "^14.2.1",
