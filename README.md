@@ -1,10 +1,45 @@
-# Stack Overflow Interactions to Orbit Workspace
-A community project to integrate Stack Overflow interactions into Orbit workspaces
+# Stack Overflow to Orbit Workspace
+
+
+![Build Status](https://github.com/orbit-love/community-js-stackoverflow-orbit/workflows/CI/badge.svg)
+[![npm version](https://badge.fury.io/js/%40orbit-love%2Fstackoverflow.svg)](https://badge.fury.io/js/%40orbit-love%2Fstackoverflow)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](.github/CODE_OF_CONDUCT.md)
+
+This is a JavaScript package that can be used to integrate Stack Overflow questions with a specified tag into your organization's Orbit workspace.
 
 |<p align="left">:sparkles:</p> This is a *community project*. The Orbit team does its best to maintain it and keep it up to date with any recent API changes.<br/><br/>We welcome community contributions to make sure that it stays current. <p align="right">:sparkles:</p>|
 |-----------------------------------------|
 
-## Usage
+![There are three ways to use this integration. Install package - build and run your own applications. Run the CLI - run on-demand directly from your terminal. Schedule an automation with GitHub - get started in minutes - no coding required](docs/ways-to-use.png)
+
+## First Time Setup
+
+To set up this integration you will need some details from StackOverflow. During the setup, we will need to create a new application on Stack Apps which will allow this integration to interact with the platform. The application will contain a Key which we should take note of for later.
+
+1. Head to [Stack Apps](https://stackapps.com) and login in to your account.
+2. [Register a new Stack Apps application](https://stackapps.com/apps/oauth/register). The oauth domain can be anything, as can the application website.
+3. In your application settings, take note of your `Key` value.
+
+
+## Application Credentials
+
+The application requires the following environment variables:
+
+| Variable | Description | More Info
+|---|---|--|
+| `STACK_APPS_KEY` | API Key to query Stack Overflow | Follow the First Time Setup guide above
+| `ORBIT_API_KEY` | API key for Orbit | Found in `Account Settings` in your Orbit workspace
+| `ORBIT_WORKSPACE_ID` | ID for your Orbit workspace | Last part of the Orbit workspace URL, i.e. `https://app.orbit.love/my-workspace`, the ID is `my-workspace`
+
+## Package Usage
+
+Install the package with the following command
+
+```
+$ npm install @orbit-love/stackoverflow
+```
+
+Use the package with the following snippet.
 
 ```js
 const OrbitStackOverflow = require('@orbit-love/stackoverflow')
@@ -16,13 +51,6 @@ const prepared = await orbitStackOverflow.prepareQuestions(questions)
 const response = await orbitStackOverflow.addActivities(prepared)
 console.log(response) // "Added n activities to the workspace-id Orbit workspace"
 ```
-
-## Providing Credentials
-
-You will need:
-1. Your [Orbit Workspace ID](https://app.orbit.love) under Settings
-2. Your [Orbit API Token](https://app.orbit.love/user/edit)
-3. A Key from a [Stack Apps application](https://stackapps.com/apps/oauth/register)
 
 The standard initialization of the library requires the following signature:
 
@@ -38,9 +66,9 @@ const OrbitStackOverflow = require('@orbit-love/stackoverflow')
 const orbitStackOverflow = new OrbitStackOverflow()
 ```
 
-## CLI
+## CLI Usage
 
-Without installation you can also use this package using npx:
+To use this package you do not need to install it, but will need Node.js installed on your machine.
 
 ```
 npx @orbit-love/stackoverflow --questions --tag=tag-1
@@ -53,3 +81,21 @@ npx @orbit-love/stackoverflow --questions --tag=tag-1 --hours=12
 ```
 
 To use the CLI you must have the following environment variables set: `ORBIT_WORKSPACE_ID`, `ORBIT_API_KEY`, and `STACK_APPS_KEY`.
+
+## GitHub Actions Automation Setup
+
+⚡ You can set up this integration in a matter of minutes using our GitHub Actions template. It will run regularly to add new activities to your Orbit workspace. All you need is a GitHub account.
+
+[See our guide for setting up this automation](https://github.com/orbit-love/github-actions-templates/blob/main/StackOverflow/README.md).
+
+## Contributing
+
+We 💜 contributions from everyone! Check out the [Contributing Guidelines](.github/CONTRIBUTING.md) for more information.
+
+## License
+
+This project is under the [MIT License](./LICENSE).
+
+## Code of Conduct
+
+This project uses the [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). We ask everyone to please adhere by its guidelines.
