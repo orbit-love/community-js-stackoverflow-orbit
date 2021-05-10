@@ -51,3 +51,5 @@ By default this will get the last 24 hours worth of activity, but this can be ex
 ```
 npx @orbit-love/stackoverflow --questions --tag=tag-1 --hours=12
 ```
+
+To use the CLI you must have the following environment variables set: `ORBIT_WORKSPACE_ID`, `ORBIT_API_KEY`, and `STACK_APPS_KEY`.

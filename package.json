@@ -3,7 +3,10 @@
   "version": "0.2.0",
   "description": "A community project to integrate Stack Overflow interactions into Orbit workspaces",
   "main": "./src/index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "jest",
+    "testWatch": "jest --watchAll"
+  },
   "bin": "./src/bin.js",
   "repository": {
     "type": "GitHub",
@@ -20,10 +23,12 @@
   "homepage": "https://github.com/orbit-love/community-js-orbit-stackoverflow",
   "devDependencies": {
     "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.2.1",
-    "eslint-config-airbnb-base": "^14.2.1"
+    "jest": "^26.6.3",
+    "nock": "^13.0.11",
+    "prettier": "^2.2.1"
   },
   "dependencies": {
     "axios": "^0.21.1",
