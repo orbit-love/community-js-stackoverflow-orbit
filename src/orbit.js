@@ -1,5 +1,5 @@
 const axios = require('axios')
-const package = require('../package.json')
+const pkg = require('../package.json')
 
 const addActivities = (activities, options) => {
     return new Promise(async (resolve, reject) => {
@@ -14,7 +14,7 @@ const addActivities = (activities, options) => {
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${options.credentials.orbitApiKey}`,
-                        'User-Agent': `community-js-stackoverflow-orbit/${package.version}`
+                        'User-Agent': `community-js-stackoverflow-orbit/${pkg.version}`
                     },
                     data: activity
                 }).then(_ => {
