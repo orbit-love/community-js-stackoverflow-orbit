@@ -1,4 +1,6 @@
 const axios = require('axios')
+const package = require('../package.json')
+
 const addActivities = (activities, options) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -10,7 +12,10 @@ const addActivities = (activities, options) => {
                 await axios({
                     url: `${options.BASE_URL}/${options.credentials.orbitWorkspaceId}/activities`,
                     method: 'POST',
-                    headers: { Authorization: `Bearer ${options.credentials.orbitApiKey}` },
+                    headers: {
+                        Authorization: `Bearer ${options.credentials.orbitApiKey}`,
+                        'User-Agent': `community-js-stackoverflow-orbit/${package.version}`
+                    },
                     data: activity
                 }).then(_ => {
                     stats.added++
