@@ -10,7 +10,9 @@ async function main() {
         You must run this command as follows:
         npx @orbit-love/stackoverflow --questions --tag=your-tag --hours=24
 
-        If --hours is not provided it will default to 24
+        If --hours is not provided it will default to 24.
+
+        You must also have ORBIT_WORKSPACE_ID, ORBIT_API_KEY & STACK_APPS_KEY environment variables set.
         `)
     }
 
