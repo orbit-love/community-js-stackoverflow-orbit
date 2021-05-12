@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const OrbitStackOverflow = require('./index.js')
-const orbitStackOverflow = new OrbitStackOverflow()
 const args = require('yargs').argv
 
 async function main() {
@@ -14,6 +13,8 @@ async function main() {
         If --hours is not provided it will default to 24
         `)
     }
+
+    const orbitStackOverflow = new OrbitStackOverflow()
 
     let hours
     if(!args.hours) hours = 24
