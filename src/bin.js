@@ -5,7 +5,7 @@ const args = require('yargs').argv
 
 async function main() {
 
-    if(!args.questions || !args.tag) {
+    if(!args.questions || !args.tag || !process.env.ORBIT_WORKSPACE_ID || !process.env.ORBIT_API_KEY || !process.env.STACK_APPS_KEY) {
         return console.error(`
         You must run this command as follows:
         npx @orbit-love/stackoverflow --questions --tag=your-tag --hours=24
