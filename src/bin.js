@@ -9,7 +9,7 @@ async function main() {
     if(!args.questions || !args.tag) {
         return console.error(`
         You must run this command as follows:
-        npx @orbit/stackoverflow --questions --tag=your-tag --hours=24
+        npx @orbit-love/stackoverflow --questions --tag=your-tag --hours=24
 
         If --hours is not provided it will default to 24
         `)
