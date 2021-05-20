@@ -36,7 +36,9 @@ const getSOAllPages = options => {
             let questions = []
             while(has_more) {
                 const results = await getSOSinglePage({ ...options, page })
-                questions = [...questions, ...results.items]
+                if(results && results.items) {
+                    questions = [...questions, ...results.items]
+                }
                 has_more = results.has_more
                 if(has_more) page++
             }
