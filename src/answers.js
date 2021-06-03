@@ -93,7 +93,6 @@ const prepare = answers => {
                         source_host: 'stackoverflow.com',
                         username: answer.owner.display_name,
                         url: answer.owner.link,
-                        uid: answer.owner.user_id
                     }
                 }
             })

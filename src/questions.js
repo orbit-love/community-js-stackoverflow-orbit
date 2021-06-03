@@ -83,7 +83,6 @@ const prepare = (questions, type, options) => {
                             source_host: 'stackoverflow.com',
                             username: question.owner.link.split('/')[question.owner.link.split('/').length-1],
                             url: question.owner.link,
-                            uid: question.owner.user_id
                         }
                     }
                 })

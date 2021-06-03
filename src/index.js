@@ -53,7 +53,7 @@ class OrbitStackOverflow {
                             if(result.reason && result.reason.errors && result.reason.errors.key) {
                                 stats.duplicates++
                             } else {
-                                throw new Error(result.reason.errors)
+                                throw new Error(JSON.stringify(result.reason.errors))
                             }
                         } else {
                             stats.added++
