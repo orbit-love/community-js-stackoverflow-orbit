@@ -7,24 +7,20 @@ const stackExchangeClient = new stackexchange({ version: 2.2 })
 
 const getSOSinglePage = options => {
     return new Promise((resolve, reject) => {
-        try {
-            const { tag, page, hours, credentials } = options
-            const query = {
-                key: credentials.stackAppsKey,
-                pagesize: 50,
-                tagged: tag,
-                sort: 'creation',
-                order: 'asc',
-                page: page,
-                fromdate: moment().subtract(hours, 'hours').format('X')
-            }
-            stackExchangeClient.questions.questions(query, (error, results) => {
-                if(error) throw new Error(error)
-                resolve(results)
-            })
-        } catch(error) {
-            reject(error)
+        const { tag, page, hours, credentials } = options
+        const query = {
+            key: credentials.stackAppsKey,
+            pagesize: 50,
+            tagged: tag,
+            sort: 'creation',
+            order: 'asc',
+            page: page,
+            fromdate: moment().subtract(hours, 'hours').format('X')
         }
+        stackExchangeClient.questions.questions(query, (error, results) => {
+            if(error) reject(error)
+            resolve(results)
+        })
     })
 }
 
@@ -49,88 +45,72 @@ const getSOAllPages = options => {
     })
 }
 
-const enrichSingleQuestion = question => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const { data: html } = await axios.get(`https://stackoverflow.com/users/${question.owner.user_id}`).catch(e => reject(e))
-            const $ = cheerio.load(html)
-
-            let github, twitter
-            $('[rel=me]').each((i, e) => {
-                const url = $(e).attr('href')
-                const username = $(e).text()
-                if(url.includes('github')) github = username
-                if(url.includes('twitter')) twitter = username.split('@').join('')
-            })
-
-            const q = { ...question }
-            if(github) q.owner.github = github
-            if(twitter) q.owner.twitter = twitter
-            resolve(q)
-        } catch(error) {
-            reject(error)
-        }
-    })
-}
-
-const enrichAllQuestions = questions => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const expanded = []
-            for(let question of questions) {
-                const profile = await enrichSingleQuestion(question)
-                expanded.push(profile)
-            }
-            resolve(expanded)
-        } catch(error) {
-            reject(error)
-        }
-    })
-}
-
-const get = options => {
+const get = (options) => {
     return new Promise(async (resolve, reject) => {
         try {
             if(!options.tag) throw new Error('You must provide a tag')
             if(!options.hours) throw new Error('You must provide hours')
 
             const questions = await getSOAllPages(options)
-            const enriched = await enrichAllQuestions(questions)
-            resolve(enriched)
+            resolve(questions)
         } catch(error) {
             reject(error)
         }
     })
 }
 
-const prepare = questions => {
-    return new Promise(async (resolve, reject) => {
+const prepare = (questions, type, options) => {
+    return new Promise((resolve, reject) => {
         try {
-            const prepared = questions.map(question => {
-                return {
-                    activity: {
-                        description: `Tags: ${question.tags.join(', ')}`,
-                        link: question.link,
-                        link_text: 'View question on Stack Overflow',
-                        title: `Asked ${question.title}`,
-                        activity_type: 'stackoverflow:question',
-                        key: `stackoverflow-question-${question.question_id}`,
-                        occurred_at: new Date(question.creation_date * 1000).toISOString(),
-                        member: {
-                            name: question.owner.display_name,
-                            github: question.owner.github,
-                            twitter: question.owner.twitter
+            let prepared
+
+            if(type == 'orbitActivity') {
+                prepared = questions.map(question => {
+                    return {
+                        activity: {
+                            description: `Tags: ${question.tags.join(', ')}`,
+                            link: question.link,
+                            link_text: 'View question on Stack Overflow',
+                            title: `Asked ${question.title}`,
+                            activity_type: 'stackoverflow:question',
+                            key: `stackoverflow-question-${question.question_id}`,
+                            occurred_at: new Date(question.creation_date * 1000).toISOString()
                         },
-                    },
-                    identity: {
-                        source: 'Stack Overflow',
-                        source_host: 'stackoverflow.com',
-                        username: question.owner.dislpay_name,
-                        url: question.owner.link,
-                        uid: question.owner.user_id
+                        identity: {
+                            source: 'Stack Overflow',
+                            source_host: 'stackoverflow.com',
+                            username: question.owner.link.split('/')[question.owner.link.split('/').length-1],
+                            url: question.owner.link,
+                            uid: question.owner.user_id
+                        }
                     }
-                }
-            })
+                })
+            }
+
+            if(type == 'hasAnswer') {
+                prepared = questions.filter(question => question.answer_count > 0)
+            }
+
+            if(type == 'recentActivity') {
+                const { hours } = options
+                const oldestAllowable = moment().subtract(hours, 'hours').format('X')
+                prepared = questions.filter(question => {
+                    return question.last_activity_date > oldestAllowable
+                })
+            }
+
+            if(type == 'onlyIds') {
+                prepared = questions.map(question => question.question_id)
+            }
+
+            if(type == 'postedWithinHours') {
+                const { hours } = options
+                const oldestAllowable = moment().subtract(hours, 'hours').format('X')
+                prepared = questions.filter(question => {
+                    return question.creation_date > oldestAllowable
+                })
+            }
+
             resolve(prepared)
         } catch(error) {
             reject(error)

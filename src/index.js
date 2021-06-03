@@ -1,4 +1,5 @@
 const questions = require('./questions.js')
+const answers = require('./answers.js')
 const orbit = require('./orbit.js')
 
 const BASE_URL='https://app.orbit.love/api/v1'
@@ -20,40 +21,29 @@ class OrbitStackOverflow {
     }
 
     getQuestions(options) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await questions.get({
-                    credentials: this.credentials,
-                    tag: options.tag,
-                    hours: options.hours
-                })
-                resolve(data)
-            } catch(error) {
-                reject(error)
-            }
+        return questions.get({
+            credentials: this.credentials,
+            ...options
         })
     }
 
-    prepareQuestions(list) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await questions.prepare(list)
-                resolve(data)
-            } catch(error) {
-                reject(error)
-            }
+    prepareQuestions(list, type = 'orbitActivity', options) {
+        return questions.prepare(list, type, options)
+    }
+
+    getAnswers(options) {
+        return answers.get({
+            credentials: this.credentials,
+            ...options
         })
+    }
+
+    prepareAnswers(list) {
+        return answers.prepare(list)
     }
 
     addActivities(activities) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await orbit.addActivities(activities, { credentials: this.credentials, BASE_URL })
-                resolve(data)
-            } catch(error) {
-                reject(error)
-            }
-        })
+        return orbit.addActivities(activities, { credentials: this.credentials, BASE_URL })
     }
 }
 
