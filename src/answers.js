@@ -80,7 +80,6 @@ const prepare = answers => {
             const prepared = answers.map(answer => {
                 return {
                     activity: {
-                        description: answer.body_markdown,
                         link: `https://stackoverflow.com/questions/${answer.question_id}`,
                         link_text: 'View question on Stack Overflow',
                         title: `Answered a question on Stack Overflow`,

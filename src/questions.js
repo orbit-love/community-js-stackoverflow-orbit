@@ -14,6 +14,7 @@ const getSOSinglePage = options => {
             tagged: tag,
             sort: 'creation',
             order: 'asc',
+            filter: '!nL_HTx9V7w',
             page: page,
             fromdate: moment().subtract(hours, 'hours').format('X')
         }
@@ -68,10 +69,10 @@ const prepare = (questions, type, options) => {
                 prepared = questions.map(question => {
                     return {
                         activity: {
-                            description: `Tags: ${question.tags.join(', ')}`,
+                            description: `__${question.title}__\n\nTags: ${question.tags.join(', ')}`,
                             link: question.link,
                             link_text: 'View question on Stack Overflow',
-                            title: `Asked ${question.title}`,
+                            title: `Asked a question on Stack Overflow`,
                             tags: ['channel:stackoverflow'],
                             activity_type: 'stackoverflow:question',
                             key: `stackoverflow-question-${question.question_id}`,
