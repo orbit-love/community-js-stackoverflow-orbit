@@ -1,11 +1,12 @@
+const pkg = require('../package.json')
 const questions = require('./questions.js')
-const orbit = require('./orbit.js')
-
-const BASE_URL='https://app.orbit.love/api/v1'
+const answers = require('./answers.js')
+const OrbitActivities = require('@orbit-love/activities')
 
 class OrbitStackOverflow {
 	constructor(orbitWorkspaceId, orbitApiKey, stackAppsKey) {
         this.credentials = this.setCredentials(orbitWorkspaceId, orbitApiKey, stackAppsKey)
+        this.orbit = new OrbitActivities(this.credentials.orbitWorkspaceId, this.credentials.orbitApiKey, `community-js-stackoverflow-orbit/${pkg.version}`)
 	}
 
     setCredentials(orbitWorkspaceId, orbitApiKey, stackAppsKey) {
@@ -20,36 +21,49 @@ class OrbitStackOverflow {
     }
 
     getQuestions(options) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await questions.get({
-                    credentials: this.credentials,
-                    tag: options.tag,
-                    hours: options.hours
-                })
-                resolve(data)
-            } catch(error) {
-                reject(error)
-            }
+        return questions.get({
+            credentials: this.credentials,
+            ...options
         })
     }
 
-    prepareQuestions(list) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await questions.prepare(list)
-                resolve(data)
-            } catch(error) {
-                reject(error)
-            }
+    prepareQuestions(list, type = 'orbitActivity', options) {
+        return questions.prepare(list, type, options)
+    }
+
+    getAnswers(options) {
+        return answers.get({
+            credentials: this.credentials,
+            ...options
         })
+    }
+
+    prepareAnswers(list) {
+        return answers.prepare(list)
     }
 
     addActivities(activities) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             try {
-                const data = await orbit.addActivities(activities, { credentials: this.credentials, BASE_URL })
-                resolve(data)
+                const calls = activities.map(activity => this.orbit.createActivity(activity))
+                Promise.allSettled(calls).then(results => {
+                    let stats = { added: 0, duplicates: 0 }
+                    for(let result of results) {
+                        if(result.status != 'fulfilled') {
+                            if(result.reason && result.reason.errors && result.reason.errors.key) {
+                                stats.duplicates++
+                            } else {
+                                throw new Error(result.reason.errors)
+                            }
+                        } else {
+                            stats.added++
+                        }
+                    }
+
+                    let reply = `Added ${stats.added} activities to your Orbit workspace.`
+                    if(stats.duplicates) reply += ` Your activity list had ${stats.duplicates} duplicates which were not imported`
+                    resolve(reply)
+                })
             } catch(error) {
                 reject(error)
             }

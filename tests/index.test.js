@@ -101,7 +101,6 @@ describe('prepare questions', () => {
         expect(p.activity).toBeTruthy()
         expect(p.activity.activity_type).toBe('stackoverflow:question')
         expect(p.activity.title).toBeTruthy()
-        expect(p.activity.member).toBeTruthy()
         expect(p.identity.source_host).toBe('stackoverflow.com')
     })
 })
