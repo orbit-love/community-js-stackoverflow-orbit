@@ -84,6 +84,7 @@ const prepare = answers => {
                         link: `https://stackoverflow.com/questions/${answer.question_id}`,
                         link_text: 'View question on Stack Overflow',
                         title: `Answered a question on Stack Overflow`,
+                        tags: ['channel:stackoverflow'],
                         activity_type: 'stackoverflow:answer',
                         key: `stackoverflow-answer-${answer.answer_id}`,
                         occurred_at: new Date(answer.creation_date * 1000).toISOString(),

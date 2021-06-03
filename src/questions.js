@@ -72,6 +72,7 @@ const prepare = (questions, type, options) => {
                             link: question.link,
                             link_text: 'View question on Stack Overflow',
                             title: `Asked ${question.title}`,
+                            tags: ['channel:stackoverflow'],
                             activity_type: 'stackoverflow:question',
                             key: `stackoverflow-question-${question.question_id}`,
                             occurred_at: new Date(question.creation_date * 1000).toISOString()
