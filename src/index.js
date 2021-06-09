@@ -43,27 +43,19 @@ class OrbitStackOverflow {
     }
 
     addActivities(activities) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
-                const calls = activities.map(activity => this.orbit.createActivity(activity))
-                Promise.allSettled(calls).then(results => {
-                    let stats = { added: 0, duplicates: 0 }
-                    for(let result of results) {
-                        if(result.status != 'fulfilled') {
-                            if(result.reason && result.reason.errors && result.reason.errors.key) {
-                                stats.duplicates++
-                            } else {
-                                throw new Error(JSON.stringify(result.reason.errors))
-                            }
-                        } else {
-                            stats.added++
-                        }
-                    }
-
-                    let reply = `Added ${stats.added} activities to your Orbit workspace.`
-                    if(stats.duplicates) reply += ` Your activity list had ${stats.duplicates} duplicates which were not imported`
-                    resolve(reply)
-                })
+                let stats = { added: 0, duplicates: 0, errors: [] }
+                for(let activity of activities) {
+                    await this.orbit.createActivity(activity)
+                        .then(() => { stats.added++ })
+                        .catch(err => {
+                            console.log('e', err)
+                            if(err.errors.key) stats.duplicates++
+                            else { errors.push(err) }
+                        })
+                }
+                resolve(stats)
             } catch(error) {
                 reject(error)
             }

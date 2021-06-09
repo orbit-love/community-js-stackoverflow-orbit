@@ -62,8 +62,8 @@ const orbitStackOverflow = new OrbitStackOverflow()
 // Allows you to go back a number of hours and only get questions in that timeframe
 const questions = await orbitStackOverflow.getQuestions({ tag: 'tag-1', hours: 24 })
 const prepared = await orbitStackOverflow.prepareQuestions(questions)
-const response = await orbitStackOverflow.addActivities(prepared)
-console.log(response) // "Added n activities to the workspace-id Orbit workspace"
+const summary = await orbitStackOverflow.addActivities(prepared)
+console.log(summary)
 ```
 
 ### `prepareQuestions()`
@@ -93,8 +93,8 @@ await orbitStackOverflow.prepareQuestions(questions, 'onlyIds')
 const questionIds = [123, 456, 789]
 const answers = await orbitStackOverflow.getAnswers({ ids: questionIds, hours: 24 })
 const prepared = await orbitStackOverflow.prepareAnswers(questions)
-const response = await orbitStackOverflow.addActivities(prepared)
-console.log(response) // "Added n activities to the workspace-id Orbit workspace"
+const summary = await orbitStackOverflow.addActivities(prepared)
+console.log(summary)
 ```
 
 ## CLI Usage
