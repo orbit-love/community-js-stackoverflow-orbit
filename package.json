@@ -1,6 +1,6 @@
 {
   "name": "@orbit-love/stackoverflow",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A community project to integrate Stack Overflow interactions into Orbit workspaces",
   "main": "./src/index.js",
   "scripts": {
