@@ -51,7 +51,7 @@ class OrbitStackOverflow {
                         .then(() => { stats.added++ })
                         .catch(err => {
                             if(err.errors.key) stats.duplicates++
-                            else { err.push(err) }
+                            else { stats.errors.push(err) }
                         })
                 }
                 resolve(stats)
