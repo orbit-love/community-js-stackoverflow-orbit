@@ -42,7 +42,8 @@ async function main() {
             const preparedQuestions = await orbitStackOverflow.prepareQuestions(withinTimeframe)
             console.log('Adding activities for new questions to Orbit')
             const responseQuestions = await orbitStackOverflow.addActivities(preparedQuestions)
-            console.log(responseQuestions + '\n')
+            console.log(responseQuestions)
+            console.log('\n')
         }
 
         if(args.answers) {
