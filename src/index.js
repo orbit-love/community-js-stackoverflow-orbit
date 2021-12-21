@@ -50,7 +50,15 @@ class OrbitStackOverflow {
                     await this.orbit.createActivity(activity)
                         .then(() => { stats.added++ })
                         .catch(err => {
-                            if(err.errors.key) stats.duplicates++
+                            // If the ORBIT_WORKSPACE_ID does not resolve to a workspace,
+                            // throw a specific error message
+                            if (err.error == 'Not found') {
+                                throw new Error(
+                                'No workspace found for the given ORBIT_WORKSPACE_ID.\n' +
+                                'You can get your ORBIT_WORKSPACE_ID in the last part of the Orbit workspace URL, i.e. for https://app.orbit.love/my-workspace, the ID is my-workspace'
+                                )
+                            }
+                            if(err && err.errors && err.errors.key) stats.duplicates++
                             else { stats.errors.push(err) }
                         })
                 }

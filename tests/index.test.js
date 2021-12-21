@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 
+const OrbitActivities = require('@orbit-love/activities')
 const OrbitStackOverflow = require('../src/index.js')
 const STACK_OVERFLOW_QUESTIONS = require('./STACK_OVERFLOW_QUESTIONS.json')
 
@@ -102,6 +103,64 @@ describe('prepare questions', () => {
         expect(p.activity.activity_type).toBe('stackoverflow:question')
         expect(p.activity.title).toBeTruthy()
         expect(p.identity.source_host).toBe('stackoverflow.com')
+    })
+})
+
+describe('addActivities', () => {
+    it('builds a `stats` object with `added`, `duplicates` and `errors`', async () => {
+        const orbitStackOverflow = new OrbitStackOverflow()
+        const addedActivities = await orbitStackOverflow.addActivities([])
+        expect(addedActivities).toEqual({"added": 0, "duplicates": 0, "errors": []})
+    })
+
+    it('increments `added` for each activity creation', async () => {
+        jest.spyOn(OrbitActivities.prototype, 'createActivity').mockImplementation(() => {
+            // Simulates a successful activity creation
+            return Promise.resolve()
+        })
+
+        const orbitStackOverflow = new OrbitStackOverflow()
+        const addedActivities = await orbitStackOverflow.addActivities([{}])
+        expect(addedActivities.added).toBe(1)
+        expect(addedActivities.duplicates).toBe(0)
+        expect(addedActivities.errors).toEqual([])
+    })
+
+    it('increments `duplicate` for each activity that already exists', async () => {
+        jest.spyOn(OrbitActivities.prototype, 'createActivity').mockImplementation(() => {
+            // Simulates a successful activity creation
+            return Promise.reject({errors: { key: 'key already exists' } })
+        })
+
+        const orbitStackOverflow = new OrbitStackOverflow()
+        const addedActivities = await orbitStackOverflow.addActivities([{}])
+        expect(addedActivities.added).toBe(0)
+        expect(addedActivities.duplicates).toBe(1)
+        expect(addedActivities.errors).toEqual([])
+    })
+
+    it('pushes other errors to `errors`', async () => {
+        jest.spyOn(OrbitActivities.prototype, 'createActivity').mockImplementation(() => {
+            // Simulates a successful activity creation
+            return Promise.reject({errors: { name: 'is too long (maximum is 250 characters)' } })
+        })
+
+        const orbitStackOverflow = new OrbitStackOverflow()
+        const addedActivities = await orbitStackOverflow.addActivities([{}])
+        expect(addedActivities.added).toBe(0)
+        expect(addedActivities.duplicates).toBe(0)
+        expect(addedActivities.errors).toEqual([{errors: {name: 'is too long (maximum is 250 characters)'}}])
+    })
+
+    it('throws if the workspace ID does not resolve to a workspace', async () => {
+        jest.spyOn(OrbitActivities.prototype, 'createActivity').mockImplementation(() => {
+            // Simulates a 404 error
+            return Promise.reject({error: 'Not found'})
+        })
+
+        const orbitStackOverflow = new OrbitStackOverflow()
+        await expect(orbitStackOverflow.addActivities([{}])).rejects.toThrow(/No workspace found/)
+
     })
 })
 
