@@ -67,6 +67,12 @@ const prepare = (questions, type, options) => {
 
             if(type == 'orbitActivity') {
                 prepared = questions.map(question => {
+                    // If this is an unregistered user, take the display_name value
+                    // otherwise, take the username from the user's profile link
+                    let username = question.owner.display_name;
+                    if (question.owner.link !== undefined ) {
+                        username = question.owner.link.split('/')[question.owner.link.split('/').length-1];
+                    }
                     return {
                         activity: {
                             description: `__${question.title}__\n\nTags: ${question.tags.join(', ')}`,
@@ -81,7 +87,7 @@ const prepare = (questions, type, options) => {
                         identity: {
                             source: 'Stack Overflow',
                             source_host: 'stackoverflow.com',
-                            username: question.owner.link.split('/')[question.owner.link.split('/').length-1],
+                            username: username,
                             url: question.owner.link,
                         }
                     }
