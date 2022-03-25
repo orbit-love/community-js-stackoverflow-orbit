@@ -52,6 +52,28 @@
         "content_license": "CC BY-SA 4.0",
         "link": "https://stackoverflow.com/questions/67356446/wdio-get-length-of-items-list",
         "title": "Wdio - Get length of items list"
+      }, 
+      {
+        "tags": [ 
+          "javascript", 
+          "mongodb" 
+        ],
+        "owner": { 
+          "user_type": "does_not_exist", 
+          "display_name": "user17990806" 
+        },
+        "is_answered": false,
+        "view_count": 34,
+        "closed_date": 1647371400,
+        "answer_count": 1,
+        "score": 0,
+        "last_activity_date": 1647472554,
+        "creation_date": 1647246188,
+        "last_edit_date": 1647472554,
+        "question_id": 71464785,
+        "link": "https://stackoverflow.com/questions/71464785/error-serializing-meetups0-title-returned-from-getstaticprops-in",
+        "closed_reason": "Duplicate",
+        "title": "Error serializing `.meetups[0].title` returned from `getStaticProps` in &quot;/&quot;`"
       }
     ],
     "has_more": true,
