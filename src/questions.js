@@ -69,10 +69,7 @@ const prepare = (questions, type, options) => {
                 prepared = questions.map(question => {
                     // If this is an unregistered user, take the display_name value
                     // otherwise, take the username from the user's profile link
-                    let username = question.owner.display_name;
-                    if (question.owner.link !== undefined ) {
-                        username = question.owner.link.split('/')[question.owner.link.split('/').length-1];
-                    }
+                    let username = question.owner.hasOwnProperty("link") ? question.owner.link.split('/')[question.owner.link.split('/').length-1]: question.owner.display_name;
                     return {
                         activity: {
                             description: `__${question.title}__\n\nTags: ${question.tags.join(', ')}`,
@@ -117,7 +114,6 @@ const prepare = (questions, type, options) => {
                     return question.creation_date > oldestAllowable
                 })
             }
-
             resolve(prepared)
         } catch(error) {
             reject(error)
