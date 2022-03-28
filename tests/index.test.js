@@ -83,6 +83,7 @@ describe('get questions', () => {
             expect(String(error).includes('tag')).toBeTruthy()
         }
     })
+
 })
 
 describe('prepare questions', () => {
@@ -103,6 +104,23 @@ describe('prepare questions', () => {
         expect(p.activity.activity_type).toBe('stackoverflow:question')
         expect(p.activity.title).toBeTruthy()
         expect(p.identity.source_host).toBe('stackoverflow.com')
+    }),
+
+    it('determines username value', async() => {
+        envVars(true)
+        const orbitStackOverflow = new OrbitStackOverflow()
+        const questions = await orbitStackOverflow.getQuestions({ tag: 'javascript', hours: 1 })
+        const prepared = await orbitStackOverflow.prepareQuestions(questions)
+        // registered user
+        const p0 = prepared[0]
+        expect(p0.identity.username).toBeTruthy()
+        expect(p0.identity.url).toBeDefined()
+        
+        // unregistered user
+        const p2 = prepared[2]
+        expect(p2.identity.username).toBeTruthy()
+        expect(p2.identity.url).toBeUndefined()
+
     })
 })
 
