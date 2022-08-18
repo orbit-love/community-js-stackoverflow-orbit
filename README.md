@@ -1,6 +1,6 @@
 # ⛔️ DEPRECATED: Stack Overflow to Orbit Workspace
 
-This repository is no longer recommended or maintained and it will soon be marked as archived in Github. Huge thanks to the original authors and contributors for providing this Github Actions template to our community. To add Stack Overflow interactions to your Orbit workspace, you can now request access to the Stack Overflow integration under `Workspace Settings > Integrations`. 
+This repository is no longer recommended or maintained and has now been archived. Huge thanks to the original authors and contributors for providing this Github Actions template to our community. To add Stack Overflow interactions to your Orbit workspace, you can now request access to the Stack Overflow integration under `Workspace Settings > Integrations`. Should you wish to maintain your own version of this repository, you are welcome to fork this repository and continue developing it there.
 
 ---
 
